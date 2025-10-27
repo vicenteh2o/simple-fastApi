@@ -155,6 +155,35 @@ A Postman collection is included in the project (`simple fastAPI.postman_collect
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+### Setting Up Pre-commit Hook
+
+To ensure code quality and run tests automatically before each commit, you can set up a pre-commit hook:
+
+1. Create the pre-commit hook file:
+
+```bash
+cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/sh
+echo "🔍 Running FastAPI tests with pytest..."
+python3 -m pytest --maxfail=1 --disable-warnings -q
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+  echo "❌ Tests failed after commit."
+else
+  echo "✅ All tests passed!"
+fi
+EOF
+```
+
+2. Make the pre-commit hook executable:
+
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+Now, every time you commit changes, the hook will automatically run your tests. If any tests fail, the commit will be prevented, ensuring that only working code is committed to the repository.
+
 ## Response Examples
 
 ### Successful Item Creation
