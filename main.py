@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from item import Item
 
 app = FastAPI()
 
@@ -9,7 +10,7 @@ def root():
     return {"message": "Hello, World!"}
 
 @app.post("/items")
-def create_item(item: str):
+def create_item(item: Item):
     items.append(item)
     return items
 
@@ -17,8 +18,8 @@ def create_item(item: str):
 def list_items(limit: int = 10):
     return items[0:limit]
 
-@app.get("/items/{item_id}")
-def get_item(item_id: int) -> str:
+@app.get("/items/{item_id}") 
+def get_item(item_id: int) -> Item:
     if item_id < len(items):
         return items[item_id]
     else:
