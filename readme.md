@@ -184,6 +184,30 @@ chmod +x .git/hooks/pre-commit
 
 Now, every time you commit changes, the hook will automatically run your tests. If any tests fail, the commit will be prevented, ensuring that only working code is committed to the repository.
 
+### For team or production environments, you’ll want to add automated tests to CI tools such as GitHub Actions
+
+```yaml
+name: Run FastAPI Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Run pytest
+        run: pytest --maxfail=1 --disable-warnings -q
+```
+
 ## Response Examples
 
 ### Successful Item Creation
