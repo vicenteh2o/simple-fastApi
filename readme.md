@@ -35,6 +35,12 @@ cd simple-fastApi
 pip3 install fastapi uvicorn
 ```
 
+3. Install testing dependencies (optional):
+
+```bash
+pip3 install pytest httpx
+```
+
 ## Running the Application
 
 Start the development server:
@@ -103,7 +109,24 @@ curl -X GET "http://127.0.0.1:8000/items?limit=5"
 curl -X GET "http://127.0.0.1:8000/items/0"
 ```
 
-## Testing with Postman
+## Testing
+
+### Automated Testing with pytest
+
+The project supports automated testing using pytest and httpx. Create test files to test your API endpoints:
+
+```bash
+# Run all tests
+python3 -m pytest
+
+# Run tests with verbose output
+python3 -m pytest -v
+
+# Run specific test file
+python3 -m pytest test_main.py
+```
+
+### Testing with Postman
 
 A Postman collection is included in the project (`simple fastAPI.postman_collection.json`). Import this collection into Postman to test all API endpoints easily.
 
@@ -114,6 +137,11 @@ A Postman collection is included in the project (`simple fastAPI.postman_collect
 - **FastAPI**: Modern, fast web framework for building APIs
 - **Uvicorn**: ASGI server for running FastAPI applications
 - **Pydantic**: Data validation using Python type annotations
+
+### Testing Dependencies
+
+- **pytest**: Testing framework for Python applications
+- **httpx**: Async HTTP client for testing FastAPI applications
 
 ### Local Development
 
