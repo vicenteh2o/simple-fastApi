@@ -16,6 +16,7 @@ A simple REST API built with FastAPI for managing items (todo-like functionality
 fastAPI/
 ├── main.py                                    # Main FastAPI application
 ├── item.py                                    # Pydantic models
+├── requirements.txt                           # Project dependencies
 ├── readme.md                                  # Project documentation
 └── simple fastAPI.postman_collection.json    # Postman collection for API testing
 ```
@@ -29,15 +30,19 @@ git clone https://github.com/vicenteh2o/simple-fastApi.git
 cd simple-fastApi
 ```
 
-2. Install dependencies:
+2. Install all dependencies:
 
 ```bash
-pip3 install fastapi uvicorn
+pip3 install -r requirements.txt
 ```
 
-3. Install testing dependencies (optional):
+**Alternative installation (manual):**
 
 ```bash
+# Main dependencies
+pip3 install fastapi uvicorn
+
+# Testing dependencies (optional)
 pip3 install pytest httpx
 ```
 
