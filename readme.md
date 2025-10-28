@@ -148,6 +148,10 @@ A Postman collection is included in the project (`simple fastAPI.postman_collect
 - **pytest**: Testing framework for Python applications
 - **httpx**: Async HTTP client for testing FastAPI applications
 
+### Code Quality Dependencies
+
+- **ruff**: Fast Python linter and code formatter (replaces flake8, black, isort, and more)
+
 ### Local Development
 
 ```bash
@@ -184,28 +188,79 @@ chmod +x .git/hooks/pre-commit
 
 Now, every time you commit changes, the hook will automatically run your tests. If any tests fail, the commit will be prevented, ensuring that only working code is committed to the repository.
 
-### For team or production environments, you’ll want to add automated tests to CI tools such as GitHub Actions
+### pre-commit Hook with Ruff Linting
+
+1. update the .git/hooks/pre-commit file to include Ruff linting:
+
+```bash
+#!/bin/sh
+echo "Running Ruff lint check..."
+python3 -m ruff check .
+if [ $? -ne 0 ]; then
+    echo "❌ Ruff check failed. Fix issues before committing."
+    exit 1
+fi
+echo "✅ Ruff check passed!"
+```
+
+## Production Environment & CI/CD
+
+### GitHub Actions Workflow
+
+For team or production environments, you'll want to add automated code quality checks and tests to CI tools such as GitHub Actions. Create `.github/workflows/ci.yml`:
 
 ```yaml
-name: Run FastAPI Tests
+name: FastAPI CI/CD Pipeline
 
 on: [push, pull_request]
 
 jobs:
-  test:
+  quality-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest
-      - name: Run pytest
-        run: pytest --maxfail=1 --disable-warnings -q
+
+      - name: Run Ruff Linting
+        run: |
+          echo "🔍 Running Ruff code quality checks..."
+          python3 -m ruff check .
+
+      - name: Run Ruff Formatting Check
+        run: |
+          echo "🎨 Checking code formatting with Ruff..."
+          python3 -m ruff format --check .
+
+      - name: Run Tests
+        run: |
+          echo "🧪 Running FastAPI tests with pytest..."
+          python3 -m pytest --maxfail=1 --disable-warnings -q
+```
+
+### Code Quality Tools
+
+The project uses **Ruff** for fast Python linting and formatting:
+
+```bash
+# Check for linting issues
+python3 -m ruff check .
+
+# Fix auto-fixable issues
+python3 -m ruff check . --fix
+
+# Format code
+python3 -m ruff format .
+
+# Check formatting without changing files
+python3 -m ruff format --check .
 ```
 
 ## Response Examples

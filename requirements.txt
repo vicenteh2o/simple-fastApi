@@ -8,3 +8,6 @@ httpx==0.25.2
 
 # Additional dependencies that come with FastAPI
 pydantic==2.5.0
+
+# code formatting and linting
+ruff==0.14.2
